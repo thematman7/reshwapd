@@ -1,0 +1,402 @@
+nav ul {
+  list-style-type: none;
+  background-color: #FFFFFF;
+  padding: 6px 0 6px 0;
+  text-align: center;
+}
+
+nav li {
+  display: inline;
+
+}
+nav li {
+    text-align: center;
+    font-weight: bold;
+    font-size: 140%;
+    margin: 3px 3px;
+    color: #000000;
+    background-color: #FFFFFF;
+    border-color: #F5F500;
+}
+.navbar-nav {
+  width: auto;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+
+ .navbar-nav > li > a{
+    background-color: #781611;
+    color:#f4f1ed;
+    height: 50px;
+    font-weight: bold;
+    font-size: 22px;
+  }
+
+
+nav {
+  margin: initial;
+}
+
+body {
+  background-color: #f4f1ed;
+}
+
+.input-description-label{
+  margin-bottom: 0;
+}
+/*this id is given to the <li> tag in the navigation on the paget to highlight the current pagr the user is on*/
+#current-page {
+  background-color: #871616;
+  border-radius: 8px;
+}
+
+#current-page a {
+  color:#EF3026;
+}
+/*http://learn.shayhowe.com/html-css/building-forms/*/
+
+/*.uploadtext {
+  height: 170px;
+
+  margin: 3% 1%;
+  float:right;
+   border: 3px solid green;
+   width: 250px;
+}*/
+/*styling the individual fieldsets of the upload form for both the upload page and the edit page.*/
+.field-bg {
+  display:inline-block;
+  background: transparent;
+  border-radius: 18px;
+  /*border: 5px solid white;*/
+  min-width: 210px;
+  max-width: 220px;
+  min-height: 210px;
+  position: relative;/*the following 3 lines for some unknown reason center everyhting PERFECTLY!*/
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 3px;
+  margin-bottom: 3px;
+  margin-right: 6px;
+  text-align: center;
+}
+
+.display-form {
+  max-width: 250px;
+  min-height:480px;
+  border-radius: 18px;
+  background-color: #781611;
+  border: 3px solid #781611;
+ /* position: relative;the following 3 lines for some unknown reason center everyhting PERFECTLY!
+  left: 50%;
+  transform: translateX(-50%);*/
+
+  display:inline-block;/*these 5 lines center the display forms no matter what!!*/
+    float:none;
+    /* reset the text-align */
+    text-align:center;
+    /* inline-block space fix */
+    margin-left: 8px;
+    margin-right: 8px;
+}
+/*styling the container form element of the upload form.*/
+.container {
+  /*position: relative;the following 3 lines for some unknown reason center everyhting PERFECTLY!
+  left: 50%;
+  transform: translateX(-50%);*/
+}
+#form{
+  margin-top: 9px;
+  margin-bottom: 9px;
+  display: inline-block;
+}
+
+.form-small {
+  max-width: 250px;
+  border-radius: 18px;
+  background-color: #750F0F;
+  border: 3px solid pink;
+  margin: 0 auto;
+  /*position: relative;the following 3 lines for some unknown reason center everyhting PERFECTLY!
+  left: 50%;
+  transform: translateX(-50%);*/
+
+}
+.form-big{/*this is the form on the upload page*/
+  max-width: 750px;
+  border-radius: 18px;
+  background-color: #781611;
+  /*position: relative;the following 3 lines for some unknown reason center everyhting PERFECTLY!
+  left: 50%;
+  transform: translateX(-50%);
+*/
+margin: 0 auto;
+}
+
+#displayImage {
+   position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/*The next two classes are for the display form of the 2-size fieldset like in the books page, where the info can not be editted*/
+.row-centered {
+    text-align:center;
+}
+
+#Description {
+  max-height: 85px;
+  max-width: 180px;
+  height: 85px;
+}
+
+.descriptionP {
+ color: #d9edf7;
+font-size: 17px;
+ font-weight: bold;
+}
+.stylingDisplayP {
+  color: black;
+  font-size: small;
+  min-height: 18px;
+  color: #F4F1ED;
+}
+
+#insideScrollingTextDisplay {
+  height: 55px;
+  overflow-y: scroll;
+  position: inherit;
+  height: 100px;
+  min-width: 150px;
+}
+/*.display-form-big{
+  max-width: 480px;
+  border-radius: 18px;
+  background-color: #750F0F;
+  border: 3px solid pink;
+  position: relative;the following 3 lines for some unknown reason center everyhting PERFECTLY!
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: table;
+
+margin: 0 auto;
+}
+*/.row {
+  display: block;
+  clear: both;
+  text-align: center;
+}
+
+.uploadtext label {
+  /*display:block;*/
+}
+
+.uploadpicture {
+  /*height: 100%;
+   width: 250px;
+  margin: 3% 1%;
+  float: left;
+  border: 3px solid black;*/
+}
+.uploadcategory {
+  /*border: 3px solid blue;
+     width: 250px;
+*/
+  /*margin: 3%;*/
+}
+.uploadcategory select {
+  display: block;
+  margin:3% 1%;
+}
+
+form fieldset{
+  /*padding: 0;
+ display: inline;
+  margin: auto;
+  border: none;*/
+}
+
+p {
+  color: white;
+  margin: 1px;
+  font-size: 100%;
+}
+
+
+/*Code for the JavaS-generated form begins*/
+
+.picture {
+  border: 1px solid orange;
+  height: 150px;
+  width: 150px;
+  float: left;
+  margin: 3% 1% 1% 1%;
+}
+
+.text {
+  border: 1px solid blue;
+  width: 200px;
+  height: 160px;
+  float: right;
+  margin: 2% 1% 1% 1%;
+}
+.confirm {
+  margin:0;
+}
+
+.typeahead_Course {
+  width: 180px;
+}
+
+.tt-suggestion  {
+  display: block;
+    content: ' ';
+    clear: right;
+    display: block;
+
+}
+
+.tt-menu {    /* used to be tt-dropdown-menu in older versions */
+  display: block;
+  width: 200px;
+  margin-top: 4px;
+  padding: 4px 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+          box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.tt-suggestion.tt-cursor,.tt-suggestion:hover {
+  color: #fff;
+  background-color: #0097cf;
+}
+
+.invisibleDiv {
+visibility: hidden;
+
+}
+
+.FormArea{
+  /*border: 2px solid black;*/
+  text-align: center;
+}
+
+#canvasContainer {
+  background-image: url("Images/no-file-uploaded.png");
+  background-repeat: no-repeat;
+}
+
+.remove-file-btn {
+  padding:0;
+  margin:0;
+  /*position: relative;
+  bottom: 1px;
+  left: 1px;*/
+}
+
+/*Styling buttons, file inputs and other inputs*/
+
+.buttonStyle {
+  border: 2px #fff solid;
+  border-radius:12px;
+  position: relative;
+  width: 150px;
+  height: 20px;
+  text-align:center;
+  background-color: transparent;
+  color: #fff;
+  font: bold 14px arial;
+  padding-top:1px;
+  margin: 5px auto;
+  cursor: pointer;
+}
+.formButton {
+  background-color: #781611;
+  color: #F4F1ED;
+  border: 2px #F4F1ED solid;
+  border-radius: 8px;
+  margin-right: 3px;
+}
+.contactAnchor {
+    color: #F4F1ED;
+}
+#logout {
+  cursor: pointer;/*makes the mouse seem to be a pointer when hovered over the Log Out anchor*/
+}
+
+#post-file {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      opacity: 0;
+      cursor: pointer;
+}
+
+select {
+   height: 29px;
+   width: 180px;
+   background-color: transparent;
+   color: #fff;
+   border: 2px solid;
+}
+
+
+.navbar-default, .nav, .nav li, .navbar-default .navbar-nav > li > a{
+    background-color: #781611;
+    color:#f4f1ed;
+  }
+.outsideForm{ /*this is a class for any selects, buttons, text inputs that are located outside the form.*/
+  background-color: transparent;
+  color: #781611;
+  border: 2px #781611 solid;
+  border-radius:12px;
+}
+.filter  {
+    /*border: 2px black solid;*/
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    display: table;
+    /*background-color:  pink;*/
+}
+
+.insideFilterDiv {
+    /*border: 2px solid blue;
+    margin: 5px;*/
+    display: inline;
+}
+
+.uploadFormButton {
+
+    border: 4px #781611 solid;
+    font-size: 40px;
+}
+
+p#noResultsFound {
+    color: #781611;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 30px;
+}
+
+p#help {
+    cursor: pointer;
+    background-color: #F4F1ED;
+    display: table;
+    border-radius: 3px;
+    color: #781611;
+    padding: 2px;
+}

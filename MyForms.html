@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Forms</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><!-- THIS LINE IS WHAT MAKES THE WEBSITE LOOK GOOD ON ALL SCREENS - i.e. RESPONSIVE!! -->
+
+<script type="text/javascript" src="jquery/jquery-1.12.0.min.js"></script>
+<script src="Bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="parse-v1.6.14.js"></script>
+<script type="text/javascript" src="typeahead.js"></script>
+
+
+<link rel="stylesheet" href="Bootstrap/css/bootstrap.min.css">
+<link  rel="stylesheet" type="text/css" href="style.css"><!-- ALWAYS HAVE MY STYLESHEET APPEAR AFTER THE BOTSTRAP CSS SO TO OVERRIDE IT! -->
+
+<script>
+
+	function editPic() {
+
+    //Here I am creating a canvas which will replace the image if someone decides to re-upload an image.
+	 	$("#image-canvas-div").empty();
+	 	var changeImgCanv = document.createElement("CANVAS");
+		changeImgCanv.id = "myCanvas";
+		document.getElementById("image-canvas-div").appendChild(changeImgCanv);
+
+
+		//The file magic stuff begins____
+	  var fileElement = $("#post-file")[0];
+	  var filePath = $("#post-file").val();
+	  var fileName = filePath.split("\\").pop();
+	  console.log("location 1")
+	  if (fileElement.files.length > 0) {
+	    var file = fileElement.files[0];
+	    console.log(file);
+	    loadImage(file);
+	  }
+	}
+
+      //loadImage FUNCTION BEGINS HERE
+function loadImage(src){
+
+  //  Prevent any non-image file type from being read.
+  if(!src.type.match(/image.*/)){
+    console.log("The dropped file is not an image: ", src.type);
+    return;
+  }
+
+  //  Create our FileReader and run the results through the render function.
+  var reader = new FileReader();
+  reader.onload = function(e){
+    render(e.target.result);
+  };
+  reader.readAsDataURL(src);
+}
+
+
+//The rendering of the image function.
+var MAX_HEIGHT = 100;
+var MAX_WIDTH = 180;
+function render(src){
+	var image = new Image();
+	image.onload = function(){
+	    var canvas = document.getElementById("myCanvas");
+	    if(image.height > image.width || image.height > MAX_HEIGHT ) { //"||" means or
+	      image.width *= MAX_HEIGHT / image.height;
+	      image.height = MAX_HEIGHT;
+	    }
+	    if (image.width > MAX_WIDTH){//
+	      // image.height *= MAX_HEIGHT / image.width;
+	      image.width = MAX_HEIGHT;
+	    }
+	    var ctx = canvas.getContext("2d");
+	    ctx.clearRect(0, 0, canvas.width, canvas.height);
+	    canvas.width = image.width;
+	    canvas.height = image.height;
+	    ctx.drawImage(image, 0, 0, image.width, image.height);
+	};
+  image.src = src;
+  filePresent = true;
+  removeButton();//call on the removeButton function to create it.
+  document.getElementById("UploadPictureField").style.backgroundImage = "url()";//clears the background of the div so it does not clutter the view.
+}
+function removeFile(){
+		$("#image-canvas-div").empty();
+		//document.getElementById("myCanvas").getContext("2d").clearRect(0, 0, document.getElementById("myCanvas").width, document.getElementById("myCanvas").height);//this weird thing would clear the canvas content
+        // document.getElementById("myCanvas").getContext("2d").clearRect(0, 0, document.getElementById("myCanvas").width, document.getElementById("myCanvas").height);//this weird thing would clear the canvas content
+        filePresent = false; //shows that the file has been removed.
+        $("#removeDiv").empty();//deletes the function once the div has been removed.
+        document.getElementById("UploadPictureField").style.backgroundImage = "url(Images/no-file-uploaded.png)";
+        console.log("picture removed");
+        document.getElementById("UploadPictureField").style.backgroundRepeat = "no-repeat";
+
+}
+  </script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#help").click(function(){
+    var h = $("#help").html();
+    //console.log(h);
+    if (h == "Help"){
+        $("#help").text("email reshwap@lawrenceville.org");
+    }
+    else {
+      $("#help").text("Help");
+    }
+  });
+});
+</script>
+
+</head>
+<body>
+	<header>
+    <nav class="navbar navbar-default">
+      <div id="current-user"></div>
+        <div class="container">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <li><a href="Books.html">Books</a></li>
+                <li><a href="Furniture.html">Furniture</a></li>
+                <li><a href="Electronics.html">Electronics</a></li>
+                <li><a href="Others.html">Other</a></li>
+                <li><a href="Upload.html">Upload</a></Li>
+                <li id ="current-page"><a href="MyForms.html">My Forms</a></li>
+                <li><a href="About.html">About</a></li>
+                <li><a id="logout"><!-- <button id="logout"> -->Log Out<!-- </button> --></a></li>
+              </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+        <p id="help">Help</p>
+    </nav>
+  </header>
+
+	<script type="text/javascript">//start the displaying of the forms through a function
+		$(document).ready(function callTheuploadFormsFunction() {
+		      uploadForms ();
+		  });
+	</script>
+	<script type="text/javascript" src="JS_Files/getPrintdisplayForms.js"></script> <!-- the functions that searches and prints out all of the forms. -->
+	<script type="text/javascript" src="JS_Files/TypeaheadAutocomplete.js"></script><!-- The typeahead autocomplete here.  -->
+	<!-- Form Area and nothing found div Here -->
+	<p id="noResultsFound"></p>
+	<div id="FormArea" class="FormArea container-fluid"></div>
+
+	<script type="text/javascript" src="JS_Files/getPrintdisplayForms.js"></script> <!-- the functions that searches and prints out all of the forms. -->
+
+	<script type="text/javascript">
+
+	Parse.initialize("5Mt93UzpajJ9GdFOswxOvfGFuKzYILLERKPjlSaR", "YqQXgTXdkxON3cfQDquL9L8A783YyZd2Ahuhvz2K");
+	var Books = Parse.Object.extend("Books");
+
+		function getThisForm(clicked_id){
+			formId = clicked_id;//updateForm() uses this variable to query the database when it comes to updating the values in the form.
+			var query = new Parse.Query(Books);
+			query.equalTo("objectId", clicked_id);//creating and setting up the query for one particular form with the clicked_id
+			console.log(clicked_id);
+			$("#FormArea").empty();//Clear anything that would be inside the FormArea div.
+
+
+			query.find({
+			  	success: function(results){ //ADD a while i<1 loop so that forms aren't generated twice.
+			  		for (var i in results) {
+				        var title = results[i].get("title");
+				        var description = results[i].get("description");
+				        //var price = results[i].get("price");
+				        subject = results[i].get("subject");
+				        courseName = results[i].get("courseName");
+				        var category = results[i].get("category");
+				        //set a sellect index function. "Select" = 0; Books = 1; Furn = 2; Electro = 3; Others = 4;
+
+				        	if (category == "Books"){var index = 1;};
+				        	if (category == "Furniture"){var index = 2;};
+				        	if (category == "Electronics"){var index = 3;};
+				        	if (category == "Other"){var index = 4;};
+
+				        var id = results[i].id;
+				        console.log(id);
+
+				        //Beginning to deal with the file HERE
+				        var img = "";
+				        if (results[i].get("file")) {
+				        	var file = results[i].get("file");
+				        	var url = file.url();
+				        	var filePresence = true;//used to determine if the file has been uploaded
+				        	// console.log("url:"+url);
+				        	// img = "<img src ="+url+">";
+				        }
+				        else {
+				        	var filePresence = false;
+				        }
+				        // console.log("Title:"+title);
+				        		      //The following code generates a form that contains values of the properties of the objects each row.
+
+			  var UploadForm = document.createElement("FORM");
+			  UploadForm.className = "container";
+			  UploadForm.id = "form";
+			 //this thing here checks for the window size to decide what class to append.
+			 //UPDATE FROM 3/23/2016 The following if looks unnecessary!!
+			if($(window).width() < 768) {
+	            $(UploadForm).addClass('form-small');
+	            $(UploadForm).removeClass('form-big');
+        	}else{
+	            $(UploadForm).addClass('form-big');
+	            $(UploadForm).removeClass('form-small');
+        	}
+        	//finishing appending the class.
+			  document.getElementById("FormArea").appendChild(UploadForm);
+			  var divRow = document.createElement("DIV");
+			  divRow.className = "row";
+
+			  UploadForm.appendChild(divRow);
+			  var containerDiv = document.createElement("DIV");
+			  containerDiv.className = "col-lg-12 col-md-12 col-sm-12 col-xs-12";
+			  divRow.appendChild(containerDiv);
+			  //Creating Individual divs for the fieldsets
+			  var imgDiv = document.createElement("DIV");
+			  imgDiv.className = "col-lg-4 col-md-4 col-sm-4 col-xs-12";
+			  containerDiv.appendChild(imgDiv);
+			  //IMAGE FIELDSET
+			  var UploadPictureField = document.createElement("FIELDSET");
+			  UploadPictureField.id = "UploadPictureField";
+			  UploadPictureField.className = "field-bg uploadpicture col-lg-4 col-md-4 col-sm-4 col-xs-12";
+			  imgDiv.appendChild(UploadPictureField);
+			  var removeDiv = document.createElement("DIV");
+			  removeDiv.id = "removeDiv";
+			  UploadPictureField.appendChild(removeDiv);
+			  if (filePresence == true){
+			  var removeButton = document.createElement("BUTTON");
+        removeButton.id = "remove-file-btn";
+        removeButton.className = "remove-file-btn";
+        removeButton.type = "button";
+        removeButton.addEventListener("click", removeFile);
+        removeButton.innerHTML = "Remove file";
+        removeDiv.appendChild(removeButton);
+    	  }
+    	  var fileInputContainingDiv = document.createElement("DIV");
+    	  fileInputContainingDiv.innerHTML = "Upload Picture";
+    	  fileInputContainingDiv.className = "buttonStyle";
+    	  UploadPictureField.appendChild(fileInputContainingDiv);
+
+			  var InputPicture = document.createElement("INPUT");
+			  InputPicture.type = "file";
+			  InputPicture.id = "post-file";
+			  InputPicture.addEventListener("change", editPic);
+			  fileInputContainingDiv.appendChild(InputPicture);
+			  var UploadedPicture = document.createElement("IMG");
+			  // UploadedPicture.id = "UploadedPicture";
+			  if (filePresence == true){
+			  UploadedPicture.src= url;
+			  }
+			  else {
+			  UploadedPicture.src="Images/no-file-uploaded.png";
+			  }
+
+			  var pictureORcanvas = document.createElement("DIV");//This is the div where the image or the canvas will go into.
+			  pictureORcanvas.id = "image-canvas-div";
+			  UploadPictureField.appendChild(pictureORcanvas);
+			  pictureORcanvas.appendChild(UploadedPicture);
+
+
+
+			  //Bootstrap div for category fieldset:
+			  var catDiv = document.createElement("DIV");
+			  catDiv.className = "col-lg-4 col-md-4 col-sm-4 col-xs-12";
+			  containerDiv.appendChild(catDiv);
+			  //GENERATE AN ARRAY OF SELECT OPTIONS FIELDSET
+			  var UploadCategoryField = document.createElement("FIELDSET");
+			  UploadCategoryField.className = "field-bg uploadcategory col-lg-4 col-md-4 col-sm-4 col-xs-12";
+			  catDiv.appendChild(UploadCategoryField);
+			  UploadCategoryField.id = "Uploadcategory";
+
+			  //creating a label for the category select option.
+			  var EnterCategory= document.createElement("LABEL");
+			  UploadCategoryField.appendChild(EnterCategory);
+
+			  //creating a select tag for the category options
+			  var SelectCategory = document.createElement("SELECT");
+      		  EnterCategory.appendChild(SelectCategory);
+     		  SelectCategory.id = "Category";
+
+     		  //add an change event here
+     		  SelectCategory.addEventListener("change", defineCat);
+
+     		  var ChooseCat = document.createElement("OPTION");
+		        ChooseCat.innerHTML = "Select Category";
+		        SelectCategory.appendChild(ChooseCat);
+		      //Books
+		        var Books = document.createElement("OPTION");
+		        Books.innerHTML = "Books";
+		        SelectCategory.appendChild(Books);
+		      //Furnit
+		        var Furniture = document.createElement("OPTION");
+		        Furniture.innerHTML = "Furniture";
+		        SelectCategory.appendChild(Furniture);
+
+		        // Electro
+		        var Electronics = document.createElement("OPTION");
+		        Electronics.innerHTML = "Electronics";
+		        SelectCategory.appendChild(Electronics);
+		        // Others
+		        var Others = document.createElement("OPTION");
+		        Others.innerHTML = "Others";
+		        SelectCategory.appendChild(Others);
+		        //______Below set the default value of a category to the one specified previously in the form
+		        SelectCategory.selectedIndex = index;
+		        var categoryInvalidMessage = document.createElement("P");
+                categoryInvalidMessage.id = "category-invalid-message";
+                categoryInvalidMessage.style.color = "#ff0000";
+                EnterCategory.appendChild(categoryInvalidMessage);
+
+		        //_______________________________
+
+
+		        //Creating the label where to put the invisible part of the form that is controlled by defineCat()
+		        var invisibleDiv = document.createElement("DIV");
+		        UploadCategoryField.appendChild(invisibleDiv);
+		        invisibleDiv.id = "invisibleDiv";
+		        invisibleDiv.className = "invisibleDiv";
+
+			  //creating a label for the subject select
+			  var EnterSubject= document.createElement("LABEL");
+			  invisibleDiv.appendChild(EnterSubject);
+
+      // var apendlocation = document.getElementById("Uploadcategory");
+      SelectSubject = document.createElement("SELECT");
+      EnterSubject.appendChild(SelectSubject);
+      SelectSubject.id = "SelectSubject";
+      //creating options that will be apended to the subject selector
+        var ChooseSubj = document.createElement("OPTION");
+        ChooseSubj.innerHTML = "Select Subject";
+        SelectSubject.appendChild(ChooseSubj);
+      //English
+        var English = document.createElement("OPTION");
+        English.innerHTML = "English";
+        SelectSubject.appendChild(English);
+      //Mathematics
+        var Mathematics = document.createElement("OPTION");
+        Mathematics.innerHTML = "Mathematics";
+        SelectSubject.appendChild(Mathematics);
+
+        // Language
+        var Language = document.createElement("OPTION");
+        Language.innerHTML = "Language";
+        SelectSubject.appendChild(Language);
+        // Science
+        var Science = document.createElement("OPTION");
+        Science.innerHTML = "Science";
+        SelectSubject.appendChild(Science);
+        // History
+        var history = document.createElement("OPTION");
+        history.innerHTML = "History";
+        SelectSubject.appendChild(history);
+        // Interdisciplinary
+        var Interdisciplinary = document.createElement("OPTION");
+        Interdisciplinary.innerHTML = "Interdisciplinary";
+        SelectSubject.appendChild(Interdisciplinary);
+        // Religion and Philosophy
+        var Religion_and_Philosophy = document.createElement("OPTION");
+        Religion_and_Philosophy.innerHTML = "Religion and Philosophy";
+        SelectSubject.appendChild(Religion_and_Philosophy);
+        // Perfomring_Arts
+        var Perfomring_Arts = document.createElement("OPTION");
+        Perfomring_Arts.innerHTML = "Perfomring Arts";
+        SelectSubject.appendChild(Perfomring_Arts);
+        // Visual_Arts
+        var Visual_Arts = document.createElement("OPTION");
+        Visual_Arts.innerHTML = "Visual Arts";
+        SelectSubject.appendChild(Visual_Arts);
+				//Non-Course
+				var non_Course = document.createElement("OPTION");
+        non_Course.innerHTML = "Non-Course";
+        SelectSubject.appendChild(non_Course);
+        //_______Setting the vlue for the select tag.
+        SelectSubject.value = subject;
+        //creating the error message <p> tag
+        var subjectInvalidMessage = document.createElement("P");
+        subjectInvalidMessage.id = "subject-invalid-message";
+        subjectInvalidMessage.style.color = "#ff0000";
+        EnterSubject.appendChild(subjectInvalidMessage);
+        //Creating the typeahead div
+        var typeahead_Div = document.createElement("DIV");
+        invisibleDiv.appendChild(typeahead_Div);
+        typeahead_Div.id = "div_ChooseSubject";
+        typeahead_Input = document.createElement("INPUT");
+        typeahead_Div.appendChild(typeahead_Input);
+        typeahead_Input.type = "text";
+        typeahead_Input.id = "ChooseSubject";
+        typeahead_Input.name = "edit";
+        typeahead_Input.value = courseName;
+        document.getElementById("ChooseSubject").className = "ChooseSubject";
+        //course error message:
+        var courseInvalidMessage = document.createElement("P");
+        courseInvalidMessage.id = "course-invalid-message";
+        courseInvalidMessage.style.color = "#ff0000";
+        typeahead_Div.appendChild(courseInvalidMessage);
+
+// this calls on part of the function from the TypeaheadAutocomplete.js file but with different parameters.
+
+        $('.ChooseSubject').typeahead({
+          hint: true,
+          highlight: true,
+          minLength: 1
+        },
+        {
+          name: 'courses',
+          source: substringMatcher(courses)
+        });
+
+        document.getElementById("ChooseSubject").placeholder = "Type in a Course Name";
+        defineCat();//Check the category and decide if we are going to display the Books related hidden div or not
+
+        // typeahead_Div.addEventListener("load", installTypeahead);
+
+
+        	  //Bootstrap div for the describe fieldset:
+        	  var descDiv = document.createElement("DIV");
+			  descDiv.className = "col-lg-4 col-md-4 col-sm-4 col-xs-12";
+			  containerDiv.appendChild(descDiv);
+			  //DESCRIBE ELEMENT FIELDSET
+			  var DescribeElement= document.createElement("FIELDSET");
+			  DescribeElement.className = "field-bg uploadtext col-lg-4 col-md-4 col-sm-4 col-xs-12";
+			  descDiv.appendChild(DescribeElement);
+			  var EnterTitle= document.createElement("LABEL");
+			  DescribeElement.appendChild(EnterTitle);
+			  var DescribeTitle = document.createElement("P");
+			  EnterTitle.appendChild(DescribeTitle);
+			  DescribeTitle.innerHTML = "Enter Title";
+			  var InputTitle = document.createElement("INPUT");
+			  InputTitle.type = "text";
+			  InputTitle.id = "Title";
+			  InputTitle.value = title;
+			  // console.log(title);
+			   EnterTitle.appendChild(InputTitle);
+			   //title invalid message <p> tag:
+			    var titleInvalidMessage = document.createElement("P");
+		        titleInvalidMessage.id = "title-invalid-message";
+		        titleInvalidMessage.style.color = "#ff0000";
+		        EnterTitle.appendChild(titleInvalidMessage);
+			  // Beginl Label3
+			   var EnterDescription= document.createElement("LABEL");
+			  DescribeElement.appendChild(EnterDescription);
+			  var DescribeDes = document.createElement("P");
+			  EnterDescription.appendChild(DescribeDes);
+			  DescribeDes.innerHTML = "Enter Description";
+			  var InputDescription = document.createElement("TEXTAREA");
+			  InputDescription.id = "Description";
+			  InputDescription.value = description;
+			   EnterDescription.appendChild(InputDescription);
+			  //BeginLabel4
+			//  var EnterPrice= document.createElement("LABEL");
+			//   DescribeElement.appendChild(EnterPrice);
+			//   var DescribePrice = document.createElement("P");
+			//   EnterPrice.appendChild(DescribePrice);
+			//   DescribePrice.innerHTML = "Enter Price";
+			//   var InputPrice = document.createElement("INPUT");
+			//   InputPrice.type = "number"; EnterPrice.appendChild(InputPrice);
+			//   InputPrice.id="Price";
+			//   InputPrice.value = price;
+			//   //price invalid message <p> tag:
+			//   var priceInvalidMessage = document.createElement("P");
+		  //     priceInvalidMessage.id = "price-invalid-message";
+		  //     priceInvalidMessage.style.color = "#ff0000";
+		  //     EnterPrice.appendChild(priceInvalidMessage);
+			  //Creating a button
+			  var submitNewFormButton = document.createElement("BUTTON");
+			  submitNewFormButton.innerHTML = "Submit";
+			  submitNewFormButton.type = "button";
+				submitNewFormButton.className ="formButton";
+			  submitNewFormButton.addEventListener("click", updateForm);
+			  DescribeElement.appendChild(submitNewFormButton);
+
+				        }
+
+
+
+			  	}, error: function(error){
+			  		console.log("Query Error:" + error.message);
+
+			  	}
+			});
+
+		}
+
+	</script>
+
+	<script type="text/javascript" src="JS_Files/Security.js"></script>
+	<script type="text/javascript">
+		function defineCat(){
+	      cat = document.getElementById("Category").value;
+	      console.log("category: "+cat);
+
+	      if (cat !== "Books") {
+	        document.getElementById("invisibleDiv").style.visibility = "hidden";
+	        $("#ChooseSubject").val("");
+	        $("#SelectSubject").val("");
+	      }
+	      else {
+	        document.getElementById("invisibleDiv").style.visibility = "visible";
+	        typeahead_Input.value = courseName;
+	        SelectSubject.value = subject;
+	      }
+        }
+
+	</script>
+	<script type="text/javascript">
+
+			function updateForm(){
+				Parse.initialize("5Mt93UzpajJ9GdFOswxOvfGFuKzYILLERKPjlSaR", "YqQXgTXdkxON3cfQDquL9L8A783YyZd2Ahuhvz2K");
+
+		//BEGINNING OF THE VERIFICATION FORM
+				//checking for the category to be checked:
+        if ($("#Category").val() !== "Select Category") {
+          var fieldConfirmed = true;
+          console.log("category selected");
+          $("#category-invalid-message").empty();
+        }
+        else {
+          var fieldConfirmed = false;
+          document.getElementById("category-invalid-message").innerHTML = "Please Select a Category";
+          return;
+        }
+         //checking for book related fields:
+        if (cat == "Books") {
+            //Checking for the subject to be selected:
+          if ($("#SelectSubject").val() !== "Select Subject") {
+            var fieldConfirmed = true;
+            console.log("subject selected");
+            $("#subject-invalid-message").empty();
+          }
+          else {
+            var fieldConfirmed = false;
+            document.getElementById("subject-invalid-message").innerHTML = "Please Select a Subject";
+            return;
+          }
+          //Checking for the coursename to be selected:
+          var enteredVal = document.getElementById("ChooseSubject").value;
+          var allowedCourses = ["ma201 - math 1", "ma204 - math 2", "ma221 - math 2m", "ma301 - math 3", "ma404, ma405, ma406 - math 4", "ma407, ma408, ma409 - precalculus", "ma411, ma412, ma413 - statistics", "ma421, ma422, ma423 - precalculus bc", "ma431, ma432, ma433 - finite math with applications", "ma461 - intro to robotics", "ma465 - intro to ios programming", "ma466 - intro to web programming", "ma504, ma505, ma506 - honors calculus ab", "ma511, ma512, ma513 - honors statistics", "ma518 - honors math seminar: calculus c", "ma521, ma522, ma523 - honors calculus bc", "ma527, ma528, ma529 - honors calculus-based prob & stats", "ma533 - honors math seminar: computational geometry and proof", "ma536 - honors math seminar: multivariable calculus", "ma537 - honors math seminar: differential eqns", "ma538 - honors math seminar: number theory", "ma551 - statistical reasoning in sports", "ma555, ma556, ma557 - honors computer programming", "in530 - honors calculus ab with physics", "es401 - intro to web programming (online)", "ma599 - ind. study: math",  //ENGLISH COURSES//
+  "hu201 - humanities - english","en301 - english iii","en421 - the novel","en422 - advanced poetry","en423 - essay writing","en501 - writing seminar","en502 - introduction to literature","en503 – fiction seminar","en505 - style and expression in creative writing","en506 – literary journalism","en507 - literature of national pastime","en508 - african american literature","en510 - literature of the beat generation","en513 - nobel pulitzer national booker","en516 - essays of reflection","en518 - literature as philosophy","en519 - southern african literature","en523 - hemingway","en525 - irish literature","en528 - law as literature","en531 - gender and literature","en533 - moby dick","en536 - creative non-fiction","en540 - poetry seminar","en542 - southern literature","en544 - shakespeare's comedies: masks we wear","en547 - the screwball comedy: from shakespeare to hollywood and beyond","en548 - west of everything","en549 - the wild western","en551 - signifying nothing: experimental novels","en553 - trauma and the literary imagination","en554 - chaucer: text and context","en555 - boarding school literature","en556 - modern english plays","en561 – storytelling in literature and film","en563 – american literature and the free market","en564 - mystery of language: detective fiction","en565 - war stories","en570 – gender in gothic and magic realist litereature","en571 – ovidian tradition in western literature","in504 - legal practice and procedures","in505 – ethics and literature","in509 – science and literature","in510 - linguistics: dr. johnson to dr. chomsky","in511 - modern thought and literature","in524 - immigration stories/theories","in570 - from freud to the void","in571 - the truth about trenton","en599 - ind. study: english", //HISTORY COURSES//
+   "hu204 - humanities - cultural studies","hi301 - forces that shaped the modern world","hi421, hi422, hi423 - themes in u.s. history","hi451 - economics","hi507 - history of latin america since independence","hi511, hi512, hi513 - honors u.s. history","hi515 - advanced research seminar","hi521, hi522, hi523 - honors government","hi525 - civil liberties and the american constitution","hi527 - lincoln","hi530 - european history: the renaissance","hi531 - european history: revolutions","hi532 - european history: the totalitarian state","hi551, hi552, hi553 - honors economics","hi556 - public policy economics","hi572 - u.s. foreign policy: 1945-present","hi573 - american studies: the 1960s","hi575 - the american presidency","hi576 - history of modern china","hi577 - history of japan","hi579 - a \"house divided\": the civil war era","hi580 - canadian studies","hi585 - topics in history of women and gender","hi587 - reporting vietnam","in520 - africa: then and now","in521 - interpreting the ancient maya","in522 - the middle east - myth and history","in524 - immigration stories/theories","in517 - russian language and history","in516 - russia: history and memory","in514 - poverty in the developing world","es501 - destruction of slavery (online)","es502 – introduction to theater history (online)","hi599 - ind. study: history",//LANGUAGE COURSES//
+    "la201 - french 1","la211 - spanish 1","la221 - chinese 1","la241 - latin 1","la301 - french 2","la311 - spanish 2","la321 - chinese 2","la341 - latin 2","la401, la402, la403 - french 3","la404, la405, la406 - french 3v","la411, la412, la413 - spanish 3","la421, la422, la423 - chinese 3","la441, la442, la443 - latin 3","la444 - advanced latin i","la445 - advanced latin ii","la446 - advanced latin iii","la450, la451, la452 - latin 3v","la484 - advanced chinese i","la485 - advanced chinese ii","la486 - advanced chinese iii","la490 - advanced french i","la491 - advanced french ii","la492 - advanced french iii","la494 - advanced spanish i","la495 - advanced spanish ii","la496 - advanced spanish iii","la522 honors chinese: topics in modern china ii","la523 honors chinese: topics in modern china iii","la527 - honors chinese: journalism i","la528 - honors chinese: journalism ii","la529 - honors chinese: journalism iii","la541 - honors latin: cicero and the fall of the republic","la542 - honors latin: vergil and roman identity","la543 - honors latin: augustan rome","la547 - honors latin: roman history/roman lives","la548 - honors latin: roman comedy","la549 - honors latin: latin literature in shakespeare","la565 - honors french: french cinema","la566 - honors french: the ninth art","la567 - honors french: paris - capital of the 19th century","la568 - honors french: lettres scandaleuses","la591 - honors spanish: spain and latin america","la592 - honors spanish: art as social expression","la594 - honors spanish: improvisaciones","la595 - honors spanish: fiction and reality","la596 - honors spanish","espanol en linea","la597 - honors spanish: news and culture","in526 - honors french: versailles","in527 - advanced spanish: community outreach","in528 - honors spanish: politics & poetry","in555 - honors chinese:topics in modern china i","es511, es512, es513 – arabic (online)","la599 - ind. study: language", //Science Courses//
+                     "sc205 - inquiries in biological and environmental sciences","sc325 - inquiries in chemical and physical sciences","sc410 - human evolution","sc411 - the biological roots of human behavior","sc413 - evolution of reproduction","sc414 - human disease","sc415 - human anatomy and physiology","sc416 - atmosphere and ocean dynamics","sc431, sc432, sc433 - conceptual physics","sc437 - astronomy","sc438 - observational astronomy","sc511 - honors ecology","sc513 - research in molecular biology","sc516, sc517, sc518 - honors biology","sc519 - research in field ecology","sc522, sc523, sc524 - honors chemistry","sc562 - intro to engineering","sc526 - research in applied chemistry","sc528 - biochemistry","sc531, sc532, sc533 - physics","sc544, sc545, sc546 - physics / mechanics","sc557, sc558, sc559 - honors physics / mechanics","sc573 - sustainability seminar","sc584, sc585, sc586 - honors environmental science","sc590 - learning and memory","in531 - honors physics with calculus","in558 - bioethics","in562 - food studies","in560 - race","in572 - water and humanity:a collaborative study (hybrid)","sc599 - ind. study: science", //Interdisciplinary Courses//
+                     "in504 - legal practice and procedures","in505 – ethics and literature","in509 – science and literature","in510 - linguistics: dr. johnson to dr. chomsky","in511 - modern thought and literature","in514 - poverty in the developing world","in516 - russia: history and memory","in517 - russian language and history","in520 - africa: then and now","in521 - interpreting the ancient maya","in522 - the middle east - myth and history","in524 - immigration stories/theories","in526 - honors french: versailles","in527 - advanced spanish: community outreach","in528 - honors spanish: politics & poetry","in530 - honors calculus ab with physics","in531 - honors physics with calculus","in534 - popular music in america","in536 - reason & faith: brecht's \"galileo\"","in538 - varieties of religious experience","in540 - islamic world: arab-israeli conflict","in542 - the karma of words","in544 - religious dimensions of music","in546 - religion and ecology","in548 - heresy: philosophy, religion, & science","in550 - makers modern mind","in554 - the universe story","in555 - honors chinese:topics in modern china i","in558 - bioethics","in560 - race","in562 - food studies","in564 - honors art history","in566 - time, space & light: the 20th century","in568 - design for social change","in570 - from freud to the void","in571 - the truth about trenton","in572 - water and humanity:a collaborative study (hybrid)","in584 - urban education in america","in588 - interdisciplinary: capstone",//Religion&Philosophy Courses//
+                     "rp414 - philosophy","rp405 - chinese philosophy","rp301 - world religions","rp402 - social ethics and genocide","rp407 - studies in christian origins","rp408 - hebrew bible: studies & methodologies","rp409 - judaism","rp410 - three forms of buddhism","rp411 - hinduism: belief and practice","rp412 - islamic studies: east and west","rp413 - ethics","rp515 - jerusalem","rp521 – topics in religion: religion and film","in538 - varieties of religious experience","in540 - islamic world: arab-israeli conflict","in542 - the karma of words","in544 - religious dimensions of music","in546 - religion and ecology","in548 - heresy: philosophy, religion, & science","in550 - makers modern mind","in554 - the universe story","in558 - bioethics","rp599 - ind study: relig / philos",//Performing Arts//
+                     "pa010 - the lawrentians","pa201 - foundations of music","pa221 - foundations of theater","pa301 - foundations of music","pa304 - the lawrentians","pa310 - explorations of music","pa321 - foundations of theatre","pa322 - acting & directing","pa323 - theatrical design & directing","pa324 - explorations of theatre","pa330 - shapes and styles of music","pa421 - fundamentals of theatre","pa501 - honors music theory","pa502 - honors music theory","pa503 - honors music theory","pa504 - chamber music","pa505 - vocal artistry","pa508 - digital music composition","in534 - popular music in america","in536 - reason & faith: brecht's \"galileo\"","pa599 - ind. study: music or theatre", //Visual Arst//
+                     "va200 - foundations of art i","va300 - foundations of art","va301 - drawing","va302 - design","va401 - painting","va402 - watercolor","va410 - architecture","va412 - ceramics i","va414 - photography i","va416 - printmaking-etching","va420 - structures in 3d","va422 - ceramics ii","va424 - photography ii","va430 - filmmaking: sight & sound","va501 - advanced studio","in564 - honors art history","in566 - time, space & light: the 20th century","va599 - ind. study: visual arts",];//allowedCourse
+
+          if ($.inArray(enteredVal, allowedCourses)!== -1 || $("#SelectSubject").val() === "Non-Course"){
+              var fieldConfirmed = true;
+              $("#course-invalid-message").empty();
+              console.log(enteredVal);
+          }
+          else {
+            fieldConfirmed = false;
+            document.getElementById("course-invalid-message").innerHTML = "please choose a course";
+            return;
+          }
+        }
+        //checking for a title name:
+        if ($("#Title").val() !== "") {
+          var fieldConfirmed = true;
+          console.log("title entered");
+          $("#title-invalid-message").empty();
+        }
+        else {
+          var fieldConfirmed = false;
+          document.getElementById("title-invalid-message").innerHTML = "Please enter a title";
+          return;
+        }
+        //checking for a price:
+      //   if ($("#Price").val() !== "") {
+      //     var fieldConfirmed = true;
+      //     console.log("price entered");
+      //     $("#price-invalid-message").empty();
+	    // }
+	    // else {
+      //     var fieldConfirmed = false;
+      //     document.getElementById("price-invalid-message").innerHTML = "Please enter a price";
+      //     return;
+      //   }
+        //END OF THE VERIFICATION FORM
+
+				var Books = Parse.Object.extend("Books");
+				var query = new Parse.Query(Books);
+				query.equalTo("objectId", formId);//finds the very same form that has been clicked on in the edit button.
+
+				query.find({
+				  	success: function(results){ //ADD a while i<1 loop so that forms arent generated twice.
+				  		for (var i in results) {
+				  			var category = document.getElementById("Category").value;
+
+				  			var title = document.getElementById("Title").value;
+				            //var price = document.getElementById("Price").value;
+				            var description = document.getElementById("Description").value;
+
+					        var user = Parse.User.current();
+
+						    var courseName = document.getElementById("ChooseSubject").value;//Change in the future to Course
+						    var subject = document.getElementById("SelectSubject").value;
+
+
+					        results[i].set("title", title);
+					        results[i].set("description", description);
+					        //results[i].set("price", price);
+					        //results[i].set("user", user);
+					        results[i].set("category", cat);
+					        results[i].unset("subject");//Reset back to default the following 2 fields
+					        results[i].unset("courseName");
+					        if (category == "Books") {
+					        	results[i].set("subject", subject); // set these 2 fields again if the category has not been changed
+					        	results[i].set("courseName", courseName);
+					        }
+
+					        //COMPLICATED CODE DEALING WITH FILES!!
+							          var fileElement = $("#post-file")[0];
+							          if (fileElement.files.length > 0 && filePresent == true) {
+							          var dataURL = document.getElementById("myCanvas").toDataURL("image/png");
+							          var name = "image.png";
+							          var base64 = dataURL.split('base64,')[1]; //http://stackoverflow.com/questions/26024135/converting-datauri-to-file-to-use-in-parse-javascript
+							          var newFile = new Parse.File(name, { base64: base64 });
+							          // var newFile = new Parse.File(fileName, file);
+							          newFile.save({
+							            success: function(){
+							              console.log("saved the new file");
+							            }, error: function(file, error){
+							              //
+							            }
+							          }).then(function(theFile){
+							            results[i].set("file", theFile);
+							            results[i].save({
+							              success: function(object) {
+							                console.log("success");
+							                $("#FormArea").empty();
+							                $("#FormArea").text("Your form has been successfully updated. Refresh the page to view your forms");
+							              },
+							              error: function(model, error) {
+							                console.log("Post save with file error:"+error.message);
+							              }
+							            });
+							          });
+							        }  else {
+							          console.log("no file uploaded");
+												//var gg = "Images/no-file-uploaded.png";
+												results[i].unset("file");//Setting the file field to undefined!
+
+							          results[i].save({
+							            success: function(object) {
+							              console.log("success");
+							              $("#FormArea").empty();
+							              $("#FormArea").text("Your form has been successfully updated. Refresh the page to view your forms");
+							            },
+							            error: function(model, error) {
+							              console.log("failure");
+							            }
+							          });
+							        }
+							//ENDING THE CODE DEALING WITH FILES
+
+	        			}
+	        		}, error: function(error){
+			  		console.log("Query Error:" + error.message);
+
+			  			}
+
+	    		});
+			}
+	</script>
+
+	<script type="text/javascript"> //generating the Remove button!
+      // <button id="remove-file-btn" class="remove-file-btn" type="button" onclick="removeFile()">Remove file</button>
+        function removeButton(){
+          $("#removeDiv").empty();
+          var removeButton = document.createElement("BUTTON");
+          removeButton.id = "remove-file-btn";
+          removeButton.className = "remove-file-btn";
+          removeButton.type = "button";
+          removeButton.addEventListener("click", removeFile);
+          removeButton.innerHTML = "Remove file";
+          document.getElementById("removeDiv").appendChild(removeButton);
+        }
+
+      </script>
+	<script type="text/javascript">//function responsible for deleting a form.
+		function deleteForm (clicked_id){
+
+			Parse.initialize("5Mt93UzpajJ9GdFOswxOvfGFuKzYILLERKPjlSaR", "YqQXgTXdkxON3cfQDquL9L8A783YyZd2Ahuhvz2K");
+			console.log("wasap");
+			var Books = Parse.Object.extend("Books");
+			var query = new Parse.Query("Books");
+			query.equalTo("objectId", clicked_id);
+			query.find().then(function(results) {
+				return Parse.Object.destroyAll(results);
+			}).then(function(){
+				console.log("done");
+				var done = 1;//necessary so the page is refreshed only after the object is deleted, otherwse it does not work.
+				if (done == 1){
+				uploadForms();//This will refresh the page as soon as the page is reloaded
+				//maybe also print that the form has been succesfully deleted?
+			}
+			}, function(error) {
+				console.log("failed to upload" + error.message);
+			});
+
+		}
+
+	</script>
+</body>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>About</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><!-- THIS LINE IS WHAT MAKES THE WEBSITE LOOK GOOD ON ALL SCREENS - i.e. RESPONSIVE!! -->
+
+<script type="text/javascript" src="jquery/jquery-1.12.0.min.js"></script>
+<script src="Bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="parse-v1.6.14.js"></script>
+<script type="text/javascript" src="typeahead.js"></script>
+
+
+<link rel="stylesheet" href="Bootstrap/css/bootstrap.min.css">
+<link  rel="stylesheet" type="text/css" href="style.css"><!-- ALWAYS HAVE MY STYLESHEET APPEAR AFTER THE BOTSTRAP CSS SO TO OVERRIDE IT! -->
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#help").click(function(){
+    var h = $("#help").html();
+    //console.log(h);
+    if (h == "Help"){
+        $("#help").text("email reshwap@lawrenceville.org");
+    }
+    else {
+      $("#help").text("Help");
+    }
+  });
+});
+</script>
+
+<style type="text/css">
+.masterContainerDiv {
+    margin: 0 30px;
+    border: 3px solid #781611;
+    border-radius: 9px
+}
+.about-content-div {
+    border-radius: 18px;
+    float: none;
+    padding:5px;
+    margin-bottom: 10px;
+}
+.about-content-div p {
+  color: black;
+}
+
+hr {
+  border-bottom: 2px solid #781611;
+}
+
+h2 {
+  cursor: pointer;
+  display: table;
+  position: relative;/*the following 3 lines for some unknown reason center everyhting PERFECTLY!*/
+  left: 50%;
+  transform: translateX(-50%);
+}
+</style>
+</head>
+<body>
+  <header>
+    <nav class="navbar navbar-default">
+      <div id="current-user"></div>
+        <div class="container">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <li><a href="Books.html">Books</a></li>
+                <li><a href="Furniture.html">Furniture</a></li>
+                <li><a href="Electronics.html">Electronics</a></li>
+                <li><a href="Others.html">Other</a></li>
+                <li><a href="Upload.html">Upload</a></Li>
+                <li><a href="MyForms.html">My Forms</a></li>
+                <li id ="current-page"><a href="About.html">About</a></li>
+                <li><a id="logout"><!-- <button id="logout"> -->Log Out<!-- </button> --></a></li>
+              </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+        <p id="help">Help</p>
+    </nav>
+  </header>
+<div class="masterContainerDiv">
+  <div class="about-content-div">
+    <!-- I know I have misspelle "acceptable" in the id's. -->
+    <h2 id="acceptibleUse-header">Acceptable use policy</h2>
+    <p id="acceptibleUse-fields" class="collapse">"Uses that threaten the integrity of the system;...the privacy or actual or perceived safety of others; or that are otherwise illegal are forbidden"  (c) Student Handbook. Any content that violates the school rules is prohibited to upload. Please be ethical and consistent with the rules outlined in the handbook.
+
+<span style="font-size: 8px;">I.E. DO NOT UPLOAD INAPPROPRIATE IMAGES OR TEXT!!!</span></p>
+  </div>
+  <hr>
+  <div class="about-content-div">
+    <h2 id="features-header">Features</h2>
+    <div id="features-fields" class="collapse">
+    <h4>Uploading Forms</h4>
+    <p>You can upload anything you would want to part with by going to the <a href="Upload.html">Upload</a> page and filling out the form. The picture is optional, although recommended. If uploading a book please make sure that the course name is <strong>exactly</strong> the one that is suggested by the autocomplete box, otherwise the form would not show up. Once your form has been successfully uploaded, it will be displayed on the page of the category you assigned it to.</p>
+    <h4>Edit/Delete Forms</h4>
+    <p>If you wish to edit or delete any of your forms, you can do so at <a href="MyForms.html">My Forms</a>.</p>
+  </div>
+  </div>
+
+<hr>
+
+  <div class="about-content-div">
+    <h2 id="questions-header">Questions</h2>
+  <div id="questions-fields" class="collapse">
+    <h4>How Secure is this?</h4>
+    <p>The files themselves are hosted on a third party server and the database runs from parse.com. The latter is also where all the security features are implemented. Speaking to some extent to its credibility is its acquisition by Facebook. Even I can not see your password. Moreover, access is restricted by ACL's and CLP's. However, it is entirely possible that I messed something up and there is a flaw in the security. In fact there most certainly is. But the nature of the data stored is not meant to be a sensitive one, so you <strong>do</strong> not need to worry as the app is secure enough for its purposes. I did and doing my best to make it as secure as possible:P</p>
+    <h4>Picturreees. Can I be traced down?</h4>
+    <p>Yes.</p>
+    <h4>Can one hack it?</h4>
+    <p><a href="https://en.wikipedia.org/wiki/Edward_Snowden">He</a> can. You are certainly welcome to somehow try and take it down or find a loophole. It would also be really cool if you could then tell me about it though, so that I could fix it. In fact, there is a <strong style="color:purple">Purple Cow</strong> Gift Card for anyone who can find a major flaw in the system (and Dr. Voss would probably decide if it is/isn't one).</p>
+    <h4>Help?</h4>
+    <p>Yes please! If you know the 3 front end languages and have any suggestions do email me. <strong>Especially</strong> if you know what MongoDB and Node.js are and how to use them.</p>
+  </div>
+  </div>
+
+<hr>
+
+  <div class="about-content-div">
+    <h2 id="credits-header">Credits:</h2>
+  <div id="credits-fields" class="collapse">
+    <h4>Dr. Voss</h4>
+    <p></p>
+    <h4>Mr. Bayona</h4>
+    <h4>parse.com</h4>
+    <h4>google.com</h4>
+    <h4>w3schools.com</h4>
+    <h4>stackoverflow.com</h4>
+    <h4>getbootstrap.com</h4>
+    <p>and some more:</p>
+    <a href="http://codepen.io/">Codepen is awesome</a>|
+    <a href="http://stackoverflow.com/questions/26024135/converting-datauri-to-file-to-use-in-parse-javascript"> Convert data uri to file</a>|
+    <a href="https://davidwalsh.name/resize-image-canvas">Build an image uploader</a>|
+    <a href="http://www.w3schools.com/jsref/prop_pushbutton_type.asp">Working with buttons</a>|
+
+    <a href="http://stackoverflow.com/questions/4825295/javascript-onclick-to-get-the-id-of-the-clicked-button">get the id of the clicked element through an onclick event</a>|
+    <a href="https://cdnjs.com/#">A good place to find hosted libraries</a>|
+    <a href="http://webdesign.tutsplus.com/tutorials/quick-tip-dont-forget-the-viewport-meta-tag--webdesign-5972">required for bootstrap to work on mobile phones</a>|
+    <a href=""></a>
+    <a href=""></a>
+    <a href=""></a>
+    <a href=""></a>
+    <a href=""></a>
+    <a href=""></a>
+    <a href=""></a>
+    <a href=""></a>
+    <a href=""></a>
+    <a href=""></a>
+    <a href=""></a>
+    <a href=""></a>
+    <a href=""></a>
+    <a href=""></a>
+    <a href=""></a>
+    <a href=""></a>
+    <a href=""></a>
+    <a href=""></a>
+    <a href=""></a>
+    <a href=""></a>
+  </div>
+  </div>
+
+</div>
+
+<script type="text/javascript" src="JS_Files/Security.js"></script> <!-- functions checking log in and email verification are here. -->
+<script type="text/javascript">
+//bootstrap toggle for Acceptible use policy
+  $(document).ready(function(){
+      $("#acceptibleUse-header").click(function(){
+        console.log("click");
+          $("#acceptibleUse-fields").collapse('toggle');
+      });
+  });
+//bootstrap toggle for Features use policy
+$(document).ready(function(){
+    $("#features-header").click(function(){
+      console.log("click");
+        $("#features-fields").collapse('toggle');
+    });
+});
+//bootstrap toggle for questions use policy
+  $(document).ready(function(){
+      $("#questions-header").click(function(){
+        console.log("click");
+          $("#questions-fields").collapse('toggle');
+      });
+  });
+//bootstrap toggle for credits use policy
+  $(document).ready(function(){
+      $("#credits-header").click(function(){
+        console.log("click");
+          $("#credits-fields").collapse('toggle');
+      });
+  });
+</script>
+</body>
+</html>
