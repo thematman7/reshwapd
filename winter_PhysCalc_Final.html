@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>PhysCalc Winter Final</title>
+<!-- We will really miss you, Mr. Olivier!!!! -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><!-- THIS LINE IS WHAT MAKES THE WEBSITE LOOK GOOD ON ALL SCREENS - i.e. RESPONSIVE!! -->
+
+<script type="text/javascript" src="jquery/jquery-1.12.0.min.js"></script>
+<script src="Bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="parse-v1.6.14.js"></script>
+<script type="text/javascript" src="typeahead.js"></script>
+<link type="text/css" href="http://www.glowscript.org/css/redmond/2.0/jquery-ui.custom.css" rel="stylesheet" />
+<link href="http://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css">
+<link type="text/css" href="http://www.glowscript.org/css/ide.css" rel="stylesheet" />
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+<script type="text/javascript" src="http://www.glowscript.org/lib/jquery/2.0/jquery.min.js"></script>
+<script type="text/javascript" src="http://www.glowscript.org/lib/jquery/2.0/jquery-ui.custom.min.js"></script>
+<script type="text/javascript" src="http://www.glowscript.org/package/glow.2.0.min.js"></script>
+<script type="text/javascript" src="http://www.glowscript.org/package/RSrun.2.0.min.js"></script>
+
+
+<link rel="stylesheet" href="Bootstrap/css/bootstrap.min.css">
+<link  rel="stylesheet" type="text/css" href="style.css"><!-- ALWAYS HAVE MY STYLESHEET APPEAR AFTER THE BOTSTRAP CSS SO TO OVERRIDE IT! -->
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#help").click(function(){
+    var h = $("#help").html();
+    //console.log(h);
+    if (h == "Help"){
+        $("#help").text("email mdrojjin17");
+    }
+    else {
+      $("#help").text("Help");
+    }
+  });
+});
+</script>
+
+<style type="text/css">
+  .MyAddedDivs {
+    border: 3px solid #781611;
+    border-radius: 20px;
+    display: table;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 20px;
+    margin:10px;
+    min-width: 60%
+}
+
+.infoDivs {
+  border: 3px solid #781611;
+  border-radius: 20px;
+  display: table;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px;
+  margin-bottom: 10px;
+  margin-top: 5px;
+  width: 60%;
+
+}
+
+button {
+  width: 200px;
+  height: 19px;
+  display: block;
+  margin: 3px;
+}
+
+
+p {
+  color: black;
+}
+label {
+  display: inline;
+}
+
+label#controllbl button {
+  height: 22px;
+  border-radius: 7px;
+  margin-left: 6px;
+  width: 130px;
+  display: inline;
+}
+
+div {
+  display: table;
+}
+
+img {
+  width: inherit;
+}
+
+</style>
+</head>
+<body>
+<div class="infoDivs">
+<h3>What is this?</h3>
+<p>This is a program written in <a href="https://www.python.org/" target="_blank">Pyhton</a> that, relying on visual expansions to the language provided by <a href="http://www.vpython.org/" target="_blank">Vpyhton</a>, simulates the comparison of behaviors of a spring and an elastic band. The results are shown by the potential energy and spring  constant graphs that are produced using the input set by the user.</p>
+</div>
+
+<div class="infoDivs">
+<h3>How do I use this?</h3>
+<p>It was made with a secret wish that it would be as intuitive as possible to use. Once looking at the scene with the control pannel on top click aywhere on the scene to place the ball there. Next, select either a spring or a band and hit run. Feel free to adjust the constants on the fly or before hitting the run button. Beware thought, that if constants are changed on the fly the graphs will be hard to gain insight from so it might be a good practice to run with certain set constants, graph the results, then reload the page, and run with altered constants. You may also click on the scene again to extend the spring once more and launch the ball from a new location. After you click the Print button the program <strong>will freeze</strong> for a short time. This is temporary and happens because the program is graphing the arrays it has recorded from the oscillation - the longer the oscillation the longer the freeze time.</p>
+</div>
+
+<div class="infoDivs">
+<h3>What are the assumptions?</h3>
+<p>The c, <a href="#damping">the damping</a> coefficient, which is what makes the spring eventually stop oscillating is the same for both the spring and the elastic band AND it does not change over time. These assumptions are not entirely true because the coefficient is infact dependent on temperature which changes with time as more kinetic and potential energies of the system are converted into other forms of energy, including thermal. Another important assumption is that there is no air resistance. The presence of air resistance would have a negative effect on the energy of the sustem as it would remove kinetic enery in no matter what direction the ball is moving (unlike gravity).</p>
+</div>
+<div class="infoDivs">
+<h3>What are a&p?</h3>
+<p>Theay are merely constants used in modeling the force (F=a*(stretch)^p) of the elastic band, in a way like the stiffness constant in the spring force. These constants are unique to a specific spring and by adjusting them you are essentially creating a new spring.</p>
+</div>
+<!-- <div class="infoDivs">
+<h3>What are a&b?</h3>
+<p></p>
+</div> -->
+
+<div class="infoDivs">
+<h3>What are the Energy Graphs and their signifficance?</h3>
+<h5>Potential Energy of a Spring</h5>
+  <img src="http://gdriv.es/physcalcimages/SpringEnergyVSTime.png">
+  <p>In this graph, according to the simulation, the kinetic energy of the ball eventully goes to zero, while the potential energy of the spring has an asymptote at y>0. This makes sense because the ideal spring has fixed length initial that can not be affected by the stretch. Consequently the mass pulls the spring down, making it store some potential energy.</p>
+<h5>Potential Energy of an elastic band</h5>
+  <img src="http://gdriv.es/physcalcimages/ElasticBandEnergyVSTime.png">
+  <p>From this graph it can be seen that the difference between the potential energy of the band and the kinetic energy of the ball once it reaches zero is not as great as in the spring. This would also make sense because it is in the nature of the elastic material to have a floating initial length(by the mass pulling on the band, the band expands, increaing the initial length). It follows that when the ball finishes oscillating the new initial length of the spring is greater than the initial length at the start of the oscillation, unlike the spring. It is fascinating, that this relationship appeared from the equation of the Elastic force (F(el)=a*(strecth)^p) and its inegral. Fascinating because these equations govern the graphs displayed, which in turn show real-world behavior. This is an example of how interpretting pure math can give insight into physical behavior of objects!</p>
+<h5>Spring Stiffness</h5>
+  <img src="http://gdriv.es/physcalcimages/SpringKs.png">
+<h5>Elastic Band Stiffness</h5>
+  <img src="http://gdriv.es/physcalcimages/ElasticKS.png">
+<p></p>
+<h4>What can mess the graphs up?</h4>
+<p>The graphs will always reflect the correct behavior of the system. However, changing any constants or relaunching the ball without reloading the page would cause the Force/Ks to change abruptly and the graphs will look unrealistic because in the real world such changes are unlikely/impossible to occur during the same run.</p>
+</div>
+<div class="infoDivs"><a name="damping"></a>
+<h3>What is damping?</h3>
+<p>In the context of harmonic oscillators damping is the process by which the the oscillating system looses its energy to the surroundings (thermal, sound, etc.) In this program damping is simulated as a force that always acts in the direction opposite to the movement of the ball. In this way when net force is calculated damping always has the effect of subtracting force, and ultimately energy from the system. And the way this affect is achieved is that velocity is taken, negated, and multiplied by the damping coefficient, yielding a force in the opposite direction.</p>
+<h5>Is damping the same for both the elastic bands and the springs?</h5>
+<p>No it is not. The elastic band undergoes something called thermal damping where the retardation of the system has more profound connection with the temperature of the band, however for this simulation it is assumed that both systems are subject to damping in the same way.</p>
+</div>
+
+<div class="infoDivs">
+<h3>What if there were no damping?</h3>
+<p>This is the kind of question that can be answered by using this program. Feel free to run the program several times and adjust the damping coefficient (c) and look at the behavior of the ball (may I suggest setting values of c to 0-undamped; 0.1-underdamped; 1-critically damped; and >1 - overdamped). To see the effect of the coefficient on the energy of the system print out several graphs.</p>
+</div>
+
+
+
+<div class="infoDivs">
+<h3>Links to the code files</h3>
+<h5>Off browser-oriented version of the code using classess and real time printing</h5>
+<p>Click <a href="https://drive.google.com/file/d/0B0UFj_XDOSSneHJNT2VaX3FZcjg/view?usp=sharing" target="_blank">here</a> to download the aforementioned version. On the user side it does the same thing (except the graphs are drawn real time) but the code side works in a different way. This was the way the code was supposed to initially be structured but for some reason glowscript does not support python classess that work in <a href="http://www.vpython.org/vidle/index.html" target="_blank">Vidle</a> and therefore I had to come up with another solution, which is probably more elegant and efficient. Click <a href="http://www.glowscript.org/#/user/mdrjjn/folder/Public/program/SpringFinal" target="_blank">here</a> to view the annotated final version of the code that is running via <a href="http://www.glowscript.org/#/" target="_blank">glowscript</a>  on this page on this page.</p>
+</div>
+<div class="infoDivs">
+<h3>Bibiliography</h3>
+<p><a href="http://vpython.org/contents/docs/mouse.html" target="_blank">Mouse Interactions</a>|<a href="http://vpython.org/contents/docs/vector.html" target="_blank"> Vectors in Vpython</a>| <a href="http://www.wikiwand.com/en/Damping#/Under-damping_.280_.E2.89.A4_.CE.B6_.3C_1.29" target="_blank">Spring Damping on wikipedia</a>|<a href="http://hyperphysics.phy-astr.gsu.edu/hbase/oscda.html" target="_blank">Calculating Force damping</a>|<a href="http://www.sciencebuddies.org/science-fair-projects/project_ideas/Physics_Springs_Tutorial.shtml#nonlinearsprings" target="_blank">Modeling elastic Force</a>|<a href="http://www.glowscript.org/docs/GlowScriptDocs/controls.html" target="_blank">Life-saving insight into how to run avoid classess in my case as well as installing vpython controls in glowscript!</a>|</p>
+</div>
+
+<div class="infoDivs">
+<h3>Where is this hosted?</h3>
+<p>It is a website I am working on for our school and hoping to launch soon, <a href="http://lvillex.com/" target="_blank">lvillex.com</a>.</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Other</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><!-- THIS LINE IS WHAT MAKES THE WEBSITE LOOK GOOD ON ALL SCREENS - i.e. RESPONSIVE!! -->
+
+<script type="text/javascript" src="jquery/jquery-1.12.0.min.js"></script>
+<script src="Bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="parse-v1.6.14.js"></script>
+<script type="text/javascript" src="typeahead.js"></script>
+
+
+<link rel="stylesheet" href="Bootstrap/css/bootstrap.min.css">
+<link  rel="stylesheet" type="text/css" href="style.css"><!-- ALWAYS HAVE MY STYLESHEET APPEAR AFTER THE BOTSTRAP CSS SO TO OVERRIDE IT! -->
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#help").click(function(){
+    var h = $("#help").html();
+    //console.log(h);
+    if (h == "Help"){
+        $("#help").text("email reshwap@lawrenceville.org");
+    }
+    else {
+      $("#help").text("Help");
+    }
+  });
+});
+</script>
+</head>
+<body>
+
+
+
+<header>
+   <nav class="navbar navbar-default">
+      <div id="current-user"></div>
+        <div class="container">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <li><a href="Books.html">Books</a></li>
+                <li><a href="Furniture.html">Furniture</a></li>
+                <li><a href="Electronics.html">Electronics</a></li>
+                <li id ="current-page"><a href="Others.html">Other</a></li>
+                <li><a href="Upload.html">Upload</a></Li>
+                <li><a href="MyForms.html">My Forms</a></li>
+                <li><a href="About.html">About</a></li>
+                <li><a id="logout"><!-- <button id="logout"> -->Log Out<!-- </button> --></a></li>
+              </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+        <p id="help">Help</p>
+    </nav>
+</header>
+
+<script type="text/javascript">//start the displaying of the forms through a function
+	$(document).ready(function callTheuploadFormsFunction() { //Checking if logged in and if not deleting everything!
+	      uploadForms ();
+
+	  });
+</script>
+<p id="noResultsFound"></p>
+<div id="FormArea" class="container-fluid FormArea">
+	<!-- <div class="row row-centered" id="row-centered">
+	</div> -->
+</div>
+
+
+<script type="text/javascript" src="JS_Files/getPrintdisplayForms.js"></script> <!-- the functions that searches and prints out all of the forms. -->
+
+
+<!-- COURSE SUGGESTION FORM BEGINS -->
+<script type="text/javascript" src="JS_Files/TypeaheadAutocomplete.js"></script> <!-- TYPEAHEAD HERE -->
+<script type="text/javascript" src="JS_Files/Security.js"></script> <!-- functions checking log in and email verification are here. -->
+
+
+
+</body>
+</html>
