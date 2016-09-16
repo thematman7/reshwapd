@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>signUp</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><!-- THIS LINE IS WHAT MAKES THE WEBSITE LOOK GOOD ON ALL SCREENS - i.e. RESPONSIVE!! -->
+
+<script type="text/javascript" src="jquery/jquery-1.12.0.min.js"></script>
+<script src="Bootstrap/js/bootstrap.min.js"></script>
+<!-- <script type="text/javascript" src="http://www.parsecdn.com/js/parse-latest.js"></script> -->
+<script type="text/javascript" src="parse-v1.6.14.js"></script>
+
+
+<link rel="stylesheet" href="Bootstrap/css/bootstrap.min.css">
+<link  rel="stylesheet" type="text/css" href="style.css"><!-- ALWAYS HAVE MY STYLESHEET APPEAR AFTER THE BOTSTRAP CSS SO TO OVERRIDE IT! -->
+
+<style type="text/css">
+.input-field-bg {
+  background: #781611;
+  border-radius: 18px;
+  min-width: 210px;
+  max-width: 220px;
+  position: relative;/*the following 3 lines for some unknown reason center everyhting PERFECTLY!*/
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 35px;
+  margin-bottom: 3px;
+  margin-right: 6px;
+  text-align: center;
+}
+
+input {
+	width: 190px;
+  margin-top: 3px;
+	margin-bottom: 5px;
+	border-radius: 3px;
+	border:none;
+	height: 20px;
+	color: #781611;
+}
+
+button {
+	background-color: transparent;
+	color: #F4F1ED;
+	border: 2px #F4F1ED solid;
+	border-radius: 12px;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+h1 {
+	color: #F4F1ED;
+}
+
+h4, a {
+  color: yellow;
+}
+</style>
+</head>
+<body>
+  <form class="input-field-bg">
+    <label><p><input id="newName" type="text" placeholder="Your Name"></p></label>
+    <label><p><input id="newEmail" type="text" placeholder="your school email"></p></label>
+    <label><p><button type="button" name="button" onclick="recordTheNew()">Sign up</button></p></label>
+  </form>
+  <form class="input-field-bg">
+    <h4 id="question">What is this?</h4>
+    <p id="answer">This is <a href="reshwap.com">reshwap.com</a> If you do not want to click the link (which you should), it is essentially a website made by student(s) where books along with other stuff can be sold/exchanged to/with other students. But do click the link and sign up.</p>
+    <h4 id="question">What do you do?</h4>
+    <p>The club is established to maintain and develop the website to ensure that it runs smoothly at all times in any environments... that is digital environment .. not like humid or arid or anything...</p>
+    <h4>What are your plans for this year and what can I do?</h4>
+    <p>So glad you asked!! The main goal would be to migrate the existing third party back end to our own servers. Which are not going to be created from scratch, but we will have to tinker them to a degree. Some of the technologies we are using are: Javascript (Node), HTML, CSS. That is it. The entire application is written using only 3.5 tools)))</p>
+  </form>
+
+
+
+
+<footer>
+  <script type="text/javascript">
+    function recordTheNew() {
+      Parse.initialize("5Mt93UzpajJ9GdFOswxOvfGFuKzYILLERKPjlSaR", "YqQXgTXdkxON3cfQDquL9L8A783YyZd2Ahuhvz2K");
+
+      var name = $("#newName").val();
+      var email = $("#newEmail").val();
+console.log(name, email);
+      var Newcomer = Parse.Object.extend("Furniture");
+      var newcomer = new Newcomer();
+
+      newcomer.set("name", name);
+      newcomer.set("email", email);
+
+      newcomer.save(null, {
+      });
+      location.reload();
+    }
+  </script>
+</footer>
+</body>
