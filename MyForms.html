@@ -132,6 +132,7 @@ $(document).ready(function(){
                 <li><a href="Electronics.html">Electronics</a></li>
                 <li><a href="Others.html">Other</a></li>
                 <li><a href="Upload.html">Upload</a></Li>
+									<li><a href="LF.html">Lost and Found</a></li>
                 <li id ="current-page"><a href="MyForms.html">My Forms</a></li>
                 <li><a href="About.html">About</a></li>
                 <li><a id="logout"><!-- <button id="logout"> -->Log Out<!-- </button> --></a></li>
@@ -698,6 +699,9 @@ $(document).ready(function(){
 			var Books = Parse.Object.extend("Books");
 			var query = new Parse.Query("Books");
 			query.equalTo("objectId", clicked_id);
+
+			console.log(clicked_id);
+
 			query.find().then(function(results) {
 				return Parse.Object.destroyAll(results);
 			}).then(function(){
@@ -714,4 +718,255 @@ $(document).ready(function(){
 		}
 
 	</script>
+
+
+
+
+
+
+
+
+	<script type="text/javascript">//function responsible for deleting a form.
+		function deleteLF (clicked_id){
+
+			Parse.initialize("5Mt93UzpajJ9GdFOswxOvfGFuKzYILLERKPjlSaR", "YqQXgTXdkxON3cfQDquL9L8A783YyZd2Ahuhvz2K");
+			console.log("delete activated");
+
+			var LF = Parse.Object.extend("LF");
+			var query = new Parse.Query(LF);
+
+			console.log(clicked_id);
+
+			query.equalTo("objectId", clicked_id);
+
+
+			query.find().then(function(results) {
+				return Parse.Object.destroyAll(results);
+			}).then(function(){
+				console.log("done");
+				var done = 1;//necessary so the page is refreshed only after the object is deleted, otherwse it does not work.
+				if (done == 1){
+				AFunction();//This will refresh the page as soon as the page is reloaded
+				//maybe also print that the form has been succesfully deleted?
+			};
+			location.reload();
+			}, function(error) {
+				console.log("failed to upload" + error.message);
+			});
+
+		}
+
+	</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" src= "SFunction.js"></script>
+
+<script type="text/javascript">//start the displaying of the forms through a function
+	$(document).ready(function callTheuploadFormAFunction() {
+				AFunction();
+		});
+
+</script>
+
+
+	<script>
+	function AFunction(clicked_id) {
+	  Parse.initialize("5Mt93UzpajJ9GdFOswxOvfGFuKzYILLERKPjlSaR", "YqQXgTXdkxON3cfQDquL9L8A783YyZd2Ahuhvz2K");
+
+
+		var LF = Parse.Object.extend("LF");
+
+
+		$("#noResultsFound").empty();
+		var divRow = document.createElement("DIV");
+		divRow.className = "row row-centered";
+		divRow.id = "row-centered";
+		document.getElementById("FormArea").appendChild(divRow);
+
+
+		var query = new Parse.Query(LF);
+
+
+	            	 // Here we also query the pointer that leads us to the user table.
+
+var user = Parse.User.current();
+
+query.equalTo("user", user);
+
+
+		query.find({
+			success: function(results) { //ADD a while i<1 loop so that forms arent generated twice.
+				if (results.length === 0) {
+
+						$("#noResultsFound").text("nothing yet");
+
+						return; //<--- stops the rest of the function.
+					}
+
+
+
+				for (var i in results) {
+
+
+					var catee = results[i].get("category");
+	        console.log("everything below is proof of success");
+					var local = results[i].get("location");
+	        var dEscription= results[i].get("description");
+
+
+
+					//var price = results[i].get("price");
+					var id = results[i].id;
+	        console.log(catee);
+	        console.log(local);
+					console.log(id);
+
+
+
+					//Beginning to deal with the file HERE
+					var img = "";
+					if (results[i].get("file")) {
+						var file = results[i].get("file");
+						var url = file.url();
+						console.log(url);
+						var filePresence = true; //used to determine if the file has been uploaded
+						console.log(filePresence);
+					} else {
+						var filePresence = false;
+					}
+
+
+
+					var UploadForm = document.createElement("FORM");
+
+					UploadForm.className = "display-form col-lg-4 col-md-6 col-sm-6 col-xs-12";
+					UploadForm.id = "form";
+
+
+					divRow.appendChild(UploadForm);
+
+					//Display Image fieldset being created:
+					var UploadPictureField = document.createElement("FIELDSET");
+					UploadPictureField.className = "field-bg uploadpicture";
+					UploadForm.appendChild(UploadPictureField);
+
+					if (filePresence === true) {
+						UploadPictureField.style.backgroundImage = 'url(' + url + ')';
+						UploadPictureField.style.backgroundSize = "100% 100%";
+					} else {
+						UploadPictureField.style.backgroundImage = "url('Images/no-file-uploaded.png')";
+						UploadPictureField.style.backgroundSize = "100% 100%";
+					}
+
+
+	        ///above is successful
+	        //problem is below//
+
+	        //Issue #2
+
+					//Display text info fieldset being creted:
+					var DescribeElement = document.createElement("FIELDSET");
+					DescribeElement.className = "field-bg uploadcategory";
+
+					UploadForm.appendChild(DescribeElement);
+					//BeginLabel1
+					//describe the title display tag:
+
+					var ADescriptionTag = document.createElement("D");
+					ADescriptionTag.innerHTML = "FOUND:";
+					ADescriptionTag.className = "LOST";
+					DescribeElement.appendChild(ADescriptionTag);
+
+	        var titleDescriptionTag = document.createElement("P");
+	        titleDescriptionTag.innerHTML = "location:";
+	        titleDescriptionTag.className = "descriptionP";
+	        DescribeElement.appendChild(titleDescriptionTag);
+
+	        var ChooseCategory = document.createElement("LABEL");
+	        ChooseCategory.style.height = "40px";
+	        DescribeElement.appendChild(ChooseCategory);
+	        var DescribeCat = document.createElement("P");
+	        DescribeCat.className = "stylingDisplayP";
+	        ChooseCategory.appendChild(DescribeCat);
+	        DescribeCat.innerHTML = local;
+
+	        //describe the descriptiondisplay tag:
+	        var descriptionDescriptionTag = document.createElement("P");
+	        descriptionDescriptionTag.innerHTML = "Description:";
+	        descriptionDescriptionTag.className = "descriptionP";
+	        DescribeElement.appendChild(descriptionDescriptionTag);
+	        // Beginl Label2
+	        var EnterTitle = document.createElement("LABEL");
+	        DescribeElement.appendChild(EnterTitle);
+	        var DescribeTitle = document.createElement("P");
+	        DescribeTitle.className = "stylingDisplayP";
+	        DescribeTitle.id = "insideScrollingTextDisplay";
+	        EnterTitle.appendChild(DescribeTitle);
+	        DescribeTitle.innerHTML = dEscription;
+
+					var submitNewFormButton = document.createElement("BUTTON");
+					submitNewFormButton.innerHTML = "Delete";
+					submitNewFormButton.type = "button";
+					submitNewFormButton.id = id;
+					submitNewFormButton.className ="formButton";
+					submitNewFormButton.addEventListener("click", function(){
+							deleteLF(this.id);
+					});
+					DescribeElement.appendChild(submitNewFormButton);
+
+
+
+					//creating a label for the contact button.
+
+					// var formDetails = document.createElement("LABEL");
+	// 				DescribeElement.appendChild(formDetails);
+	// 				formDetails.style.fontSize = "10px";
+	// 				var formId = document.createElement("P");
+	// 				formDetails.appendChild(formId);
+	// 				var formOwner = document.createElement("P");
+	// 				formDetails.appendChild(formOwner);
+
+
+						// if (window.permit == true) {
+						// 	formId.innerHTML = "Form id:" + id;
+						// 	console.log(results[i].id);
+						// 	formOwner.innerHTML = "FUploader's name: " + ownername;
+						// }
+
+
+
+					//check for admin rights.
+					//http://stackoverflow.com/questions/29177755/check-if-user-has-role-parse-cloud-code
+
+
+				}
+
+
+
+			},
+			error: function(error) {
+				console.log("Query Error:" + error.message);
+
+			}
+
+		});
+
+	}
+
+	</script>
+
 </body>

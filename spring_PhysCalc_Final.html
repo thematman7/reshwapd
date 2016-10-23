@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>PhysCalc Spring Final</title>
+<!-- We will really miss you, Mr. Olivier!!!! -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><!-- THIS LINE IS WHAT MAKES THE WEBSITE LOOK GOOD ON ALL SCREENS - i.e. RESPONSIVE!! -->
+
+<script type="text/javascript" src="jquery/jquery-1.12.0.min.js"></script>
+<script src="Bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="parse-v1.6.14.js"></script>
+<script type="text/javascript" src="typeahead.js"></script>
+<link type="text/css" href="http://www.glowscript.org/css/redmond/2.0/jquery-ui.custom.css" rel="stylesheet" />
+<link href="http://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css">
+<link type="text/css" href="http://www.glowscript.org/css/ide.css" rel="stylesheet" />
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+<script type="text/javascript" src="http://www.glowscript.org/lib/jquery/2.0/jquery.min.js"></script>
+<script type="text/javascript" src="http://www.glowscript.org/lib/jquery/2.0/jquery-ui.custom.min.js"></script>
+<script type="text/javascript" src="http://www.glowscript.org/package/glow.2.0.min.js"></script>
+<script type="text/javascript" src="http://www.glowscript.org/package/RSrun.2.0.min.js"></script>
+
+
+<link rel="stylesheet" href="Bootstrap/css/bootstrap.min.css">
+<link  rel="stylesheet" type="text/css" href="style.css"><!-- ALWAYS HAVE MY STYLESHEET APPEAR AFTER THE BOTSTRAP CSS SO TO OVERRIDE IT! -->
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#help").click(function(){
+    var h = $("#help").html();
+    //console.log(h);
+    if (h == "Help"){
+        $("#help").text("email mdrojjin17");
+    }
+    else {
+      $("#help").text("Help");
+    }
+  });
+});
+</script>
+
+<style type="text/css">
+  .MyAddedDivs {
+    border: 3px solid #781611;
+    border-radius: 20px;
+    display: table;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 20px;
+    margin:10px;
+    min-width: 60%
+}
+
+.infoDivs {
+  border: 3px solid #781611;
+  border-radius: 20px;
+  display: table;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px;
+  margin-bottom: 10px;
+  margin-top: 5px;
+  width: 60%;
+
+}
+
+button {
+  width: 200px;
+  height: 19px;
+  display: block;
+  margin: 3px;
+}
+
+
+p {
+  color: black;
+}
+label {
+  display: inline;
+}
+
+label#controllbl button {
+  height: 22px;
+  border-radius: 7px;
+  margin-left: 6px;
+  width: 130px;
+  display: inline;
+}
+
+div {
+  display: table;
+}
+
+img {
+  width: inherit;
+}
+
+</style>
+</head>
+<body>
+
+<div class="infoDivs">
+<h3>Please download the code</h3>
+<p>Click <a href="https://drive.google.com/open?id=0B0UFj_XDOSSnQ3dPM0t4MGZVUmM" target="_blank">here</a> to download the .py file.</p>
+</div>
+
+
+<div class="infoDivs">
+<h3>How to use the program?</h3>
+<p>After downloading the code and running it in Vidle, 5 screens should appear: the scene, the control, and the three graphing windows. Ensure that all the windows are visible fully. The top-right lever, pointing down, upon being clicked, will launch the simulation, so please set up the values for the ring charge, the state of the plate, and the magnetic field <strong>before</strong> clicking on the lever. After observing the results, restart the code and enter in a new set of values. This will ensure the most realistic simulation possible.
+</p>
+</div>
+
+<div class="infoDivs">
+<h3>Limitations of the code</h3>
+<p>One of the most consequential limitations of the code is the delta T (time step). The momentum update equation uses the variable to predict the new position of the electron with each new iteration. It contributes to the albeit small, but exponential increase in the radius of the circle the electron makes while interacting with the magnetic field. The projection of the position the program makes is tangential to the circle from the previous iteration. Hence, by definition, the electron will move off the circumference in the direction away from the center, increasing the radius constantly. If the program is allowed to run long enough, the electron will break away off the orbit and fly out (another cause for the failure at the end is the possibility that the radius grows so big that the charge gets out of the magnetic field).
+</p>
+<br>
+<p>Delta T also most probably contributes to a gradual accumulation of errors that leads to the increase in the horizontal component of the velocity, which is also against the theoretical conservation of energy.
+</p>
+<br>
+<p>Another error due to coding shortcomings is the initial z component of the force. Although tiny, the accumulation of errors discussed above leads to an eventually noticeable effect (Most noticeable when the infinite plate is turned off and the ball gradually spirals in the x-z plane). Due to the cross product, some of the erroneous velocity from the x component, could also be transmitted into the z component. This error most probably comes from the “in arange(0,pi*2,pi/45)” part of the loop responsible for the creation of the field. My hypothesis is that the code places an extra charge at pi*2, hence biasing the force to one side.
+</p>
+<br>
+<p>By turning the plate on/off, a curious phenomenon could be noticed: the radius when the plate is off, increases at a slower rate than when the plate is on. I am perplexed as to why exactly that takes place. Maybe the constant upward component, when pared with the tangential increase, pushes the particle up an upward, but then that is unlikely because the y component does not contribute anything to the horizontal distance.
+</p>
+</div>
+<!-- <div class="infoDivs">
+<h3>What are a&b?</h3>
+<p></p>
+</div> -->
+<div class="infoDivs">
+<h3>Different Charges on the ring</h3>
+<p>Finally, the user has the option to select different total charges of the ring. The charge has a direct effect on the force and, consequently, the velocity of the electron. The option allows to demonstrate what happens when the velocity is either too great or too little, with the relation to the magnetic field. </p>
+</div>
+
+<div class="infoDivs">
+<h3>Calculus involved
+</h3>
+<h5>Riemann Ring</h5>
+  <p>The acceleration in the x direction is given to the electron by the electric force of a uniformly charged ring. The force is calculated by dividing up the circumference into smaller charged particles, calculating the contribution to the E field from each individual particle on the electron, and then adding them up to get the net electric field, which is then used in finding the force. The process of adding up infinitesimally (or almost) small parts to find the whole, is called Riemann Sum[mation]. Individual delta Qs contribute small delta Es, and because of the symmetrical nature, uniform charge of the ring, the net electric field at the axis of the ring is pointing parallel to the x axis, as all the y and z contributions of the delta Es cancel each other out.
+</p>
+<h3>Calculating the Potential at a point</h3>
+<p>The graph of the electric potential energy due to the ring for the few initial milliseconds (as it captures the trend that continues on in time) is calculated using a pre-derived equation of electric potential energy at a point. But it is important to note that the equation itself is derived using calculus, integrating the change in energy that will take place if a charge is brought from infinity to its current location.
+</p>
+  <img src="http://gdriv.es/physcalcimages/DerrivationOfPotential.png">
+  <p style="    font-size: 10px;">above is the derivation of the eqaution used in the program</p>
+</div>
+
+
+</body>
+</html>

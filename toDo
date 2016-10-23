@@ -1,0 +1,11 @@
+Suggestions:
+*Add "Other" as a category for books
+*Add more info into the manual page.
+*Edit the workflow!
+
+Future Plan:
+  -- W0rk on adding new features.
+  -- Migrate to an independent server
+    --BUT in the very long run look for the option to a parse-like style so that in case of lack of
+      developers people can still use it long-term.
+  -- Expand to more schools. (Can it be done before the server has been migrated)

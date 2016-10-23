@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Lost and Found</title>
+
+ <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><!-- THIS LINE IS WHAT MAKES THE WEBSITE LOOK GOOD ON ALL SCREENS - i.e. RESPONSIVE!! -->
+
+<script type="text/javascript" src="jquery/jquery-1.12.0.min.js"></script>
+<script src="Bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="parse-v1.6.14.js"></script>
+<script type="text/javascript" src="typeahead.js"></script>
+
+<link rel="stylesheet" href="Bootstrap/css/bootstrap.min.css">
+<link  rel="stylesheet" type="text/css" href="style.css"><!-- ALWAYS HAVE MY STYLESHEET APPEAR AFTER THE BOTSTRAP CSS SO TO OVERRIDE IT! -->
+
+<style type="text/css">
+@media only screen and (max-width: 500px) {
+    .insideFilterDiv {
+        display: block;
+        margin-top: 15px;
+    }
+    .insideFilterDiv button {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    }
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#help").click(function(){
+    var h = $("#help").html();
+    //console.log(h);
+    if (h == "Help"){
+        $("#help").text("email reshwap@lawrenceville.org");
+    }
+    else {
+      $("#help").text("Help");
+    }
+  });
+});
+
+//upload functions
+
+filePresent = false;// used in the save function to check if the file exists. Is set to false by the removeFile() function.
+      function editPic() {
+      $("#removeDiv").empty();
+      var fileElement = $("#post-file")[0];
+      var filePath = $("#post-file").val();
+      var fileName = filePath.split("\\").pop();
+      console.log("picture set")
+      if (fileElement.files.length > 0) {
+        var file = fileElement.files[0];
+        console.log(file);
+        loadImage(file);
+      }
+    }
+
+    function defineCat(){
+      cat = document.getElementById("category1").value;
+      console.log("category1: "+cat);
+    }
+
+    function removeButton(){
+    var removeButton = document.createElement("BUTTON");
+    removeButton.id = "remove-file-btn";
+    removeButton.className = "remove-file-btn";
+    removeButton.type = "button";
+    removeButton.addEventListener("click", removeFile);
+    removeButton.innerHTML = "Remove file";
+    document.getElementById("removeDiv").appendChild(removeButton);
+  }
+
+    //loadImage FUNCTION BEGINS HERE
+function loadImage(src){
+//  Prevent any non-image file type from being read.
+if(!src.type.match(/image.*/)){
+  console.log("The dropped file is not an image: ", src.type);
+  return;
+}
+
+//  Create our FileReader and run the results through the render function.
+var reader = new FileReader();
+reader.onload = function(e){
+  render(e.target.result);
+};
+reader.readAsDataURL(src);
+}
+
+
+//The rendering of the image function.
+var MAX_HEIGHT = 100;//if you change height of the picture also change height of the canvas and the div!!!
+var MAX_WIDTH = 180;
+function render(src){
+var image = new Image();
+image.onload = function(){
+  var canvas = document.getElementById("myCanvas");
+  if(image.height > image.width || image.height > MAX_HEIGHT ) { //"||" means or
+    image.width *= MAX_HEIGHT / image.height;
+    image.height = MAX_HEIGHT;
+  }
+  if (image.width > MAX_WIDTH){//
+    // image.height *= MAX_HEIGHT / image.width;
+    image.width = MAX_HEIGHT;
+  }
+  var ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  canvas.width = image.width;
+  canvas.height = image.height;
+  ctx.drawImage(image, 0, 0, image.width, image.height);
+};
+image.src = src;
+filePresent = true;
+removeButton();//call on the removeButton function to create it.
+}
+
+function removeFile(){
+      document.getElementById("myCanvas").getContext("2d").clearRect(0, 0, document.getElementById("myCanvas").width, document.getElementById("myCanvas").height);//this weird thing would clear the canvas content
+      filePresent = false; //shows that the file has been removed.
+      $("#removeDiv").empty();
+    }
+
+
+
+</script>
+</head>
+<body>
+
+
+
+<header>
+    <nav class="navbar navbar-default">
+      <div id="current-user"></div>
+        <div class="container">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <li><a href="Books.html">Books</a></li>
+                <li><a href="Furniture.html">Furniture</a></li>
+                <li><a href="Electronics.html">Electronics</a></li>
+                <li><a href="Others.html">Other</a></li>
+                <li><a href="Upload.html">Upload</a></li>
+                <li id="current-page"><a href="LF.html">Lost and Found</a></li>
+                <li><a href="MyForms.html">My Forms</a></li>
+                <li><a href="About.html">About</a></li>
+                <li><a id="logout"><!-- <button id="logout"> -->Log Out<!-- </button> --></a></li>
+              </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+        <p id="help">Help</p>
+    </nav>
+  </header>
+
+  <!--two button approach-->
+
+    <b1 class= "tittle"><b><center>Search eLost and Found</center></b></b1>
+    <center>
+      <button class="outsideForm buttons" data-toggle="collapse" data-target="#lefthand">Report</button>
+      <button class="outsideForm buttons" data-toggle="collapse" data-target="#righthand">Search</button>
+
+    </center>
+
+
+
+
+
+
+
+
+
+  <!--report-->
+    <div class= "lefthand collapse" id= "lefthand">
+      <center>
+        <br>
+        <!-- THE UPLOAD FORM -->
+        <div id="FormArea" class="FormArea container-fluid">
+          <form id ="form" class="container">
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                  <fieldset  class="field-bg uploadpicture col-lg-4 col-md-4 col-sm-4 col-xs-12">
+
+                      <div id="removeDiv"></div>
+                      <div class="buttonStyle">Upload Picture
+                      <input class="button" id="post-file" type="file" onchange="editPic();">
+                      </div>
+                      <div id="canvasContainer" height="100px" width="100px" >
+                      <canvas id="myCanvas" width="100px"></canvas><!-- if you change height of the picture also change height of the canvas and the div!!! -->
+                      </div>
+
+                  </fieldset>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                  <fieldset  id="Uploadcategory" class="field-bg uploadcategory col-lg-4 col-md-4 col-sm-4 col-xs-12">
+
+                      <label>
+                        <!-- <p>Enter Category Name</p>
+                        <input type="text" id="Category"><!-onchange="defineCat()" WAS REMOVED FROM THE SELECT CATEGORY-->
+                        <select onchange="defineCat()"id="category1" class="styled-select">
+                          <option>Select Category</option>
+                          <option id="LBooks" value="LBooks">Books</option>
+                          <option id="LClothing" value="LClothing">Clothing</option>
+                          <option id="LElectronics" value="LElectronics">Electronics</option>
+                          <option id="LOthers" value="LOther">Other</option>
+                        </select>
+                        <p id="category-invalid-message" style="color:#ff0000"></p>
+                      </label>
+
+
+                            <p id="course-invalid-message" style="color:#ff0000"></p>
+                      <!-- <button type="button" class="confirm" onclick="chSubj()">Confirm if Books</button> -->
+
+                        <select id="location" class="styled-select">
+                          <option>Place Found</option>
+                          <option value="Bath House">Bath House</option>
+                          <option value="Irwin">Irwin</option>
+                          <option value="Pop">Pop</option>
+                          <option value="Mem">Mem</option>
+                          <option value="Noyes">Noyes</option>
+                          <option value="KMS">KMS</option>
+                          <option value="Lavino">Lavino</option>
+                          <option value="TJ">TJ's</option>
+                          <option value="Gruss">Gruss</option>
+                        </select>
+                        <p id="subject-invalid-message" style="color:#ff0000"></p>
+
+                      </div>
+
+                  </fieldset>
+
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                  <fieldset  class="field-bge uploadtext col-lg-4 col-md-4 col-sm-4 col-xs-12" style="width:200px">
+
+                      <label>
+                        <p>Enter Description</p>
+                        <textarea id="Description"></textarea>
+                      </label>
+
+                  </fieldset>
+                </div>
+                </div>
+              </div>
+              <div class="buttonStyle"
+              <button class="outsideForm buttons" onclick="LFunction()">Submit</button>
+            </div>
+          </form>
+
+
+        </div>
+        </div>
+
+      </center>
+      <br>
+
+
+<!--search-->
+  <div class = "righthand collapse" id= "righthand">
+    <nav class="filter "id="filter">
+      <div class="insideFilterDiv">
+        <select class="outsideForm" id="categoryA">
+          <option>Item Lost:</option><!-- Set a default value of some sort of undefined -->
+          <option value="LBooks">Books</option>
+          <option value="LElectronics">Electronics</option>
+          <option value="LClothing">Clothing</option>
+          <option value="LOther">Other</option>
+
+        </select>
+
+      </div>
+
+      <div id="location" class="insideFilterDivs">
+        <select id="locationA" class="outsideForm">
+          <option>Place Found</option>
+          <option value="Bath House">Bath House</option>
+          <option value= "Irwin">Irwin</option>
+          <option value="Pop">Pop</option>
+          <option value="Mem">Mem</option>
+          <option value="Noyes">Noyes</option>
+          <option value="KMS">KMS</option>
+          <option value="Lavino">Lavino</option>
+          <option value="TJs">TJ's</option>
+          <option value="Gruss">Gruss</option>
+        </select>
+      </div>
+
+      <div class="insideFilterDiv">
+        <center><button class="outsideForm" onclick="SFunction()">Show</button></center>
+      </div>
+    </nav>
+    <br>
+    <p id="noResultsFound"></p>
+<br>
+    <div id="FormAreak" class="container-fluid FormArea">
+    	<!-- <div class="row row-centered" id="row-centered">
+    	</div> -->
+    </div>
+
+    <script type="text/javascript" src="JS_Files/getPrintdisplayForms.js"></script>
+
+    <!--COURSE SUGGESTION FORM BEGINS -->
+
+    <script type="text/javascript" src="JS_Files/Security.js"></script> <!-- functions checking log in and email verification are here. -->
+
+
+  </div>
+
+  <script>
+//this is the LFunction
+
+
+function LFunction(){
+
+
+//checking for the category to be checked:
+        if ($("#category1").val() !== "Select Category") {
+          var fieldConfirmed = true;
+          console.log("category selected");
+          $("#category-invalid-message").empty();
+        }
+        else {
+          var fieldConfirmed = false;
+          document.getElementById("category-invalid-message").innerHTML = "Please Select a Category";
+          return;
+        }
+        //checking for a title name:
+        if ($("#location").val() !== "Place Found") {
+          var fieldConfirmed = true;
+          console.log("location entered");
+          $("#title-invalid-message").empty();
+        }
+        else {
+          var fieldConfirmed = false;
+          document.getElementById("title-invalid-message").innerHTML = "Please enter a location";
+          return;
+        }
+
+        var LF = Parse.Object.extend("LF");
+        var newLF = new LF();
+
+        var category2 = document.getElementById("category1").value;
+
+        var location1 = document.getElementById("location").value;//.value.split(";");
+        var description = document.getElementById("Description").value;
+
+        var user = Parse.User.current();
+        userContact = user.get("username");
+
+        console.log("Category: "+cat);
+
+        console.log("Location: "+ location1);
+        console.log("description: "+description);
+
+        newLF.set("category", category2);
+        newLF.set("location", location1);
+
+        newLF.set("description", description);
+
+        newLF.set("user", user);
+        newLF.set("contactEmail", userContact);
+
+
+          var fileElement = $("#post-file")[0];
+          if (fileElement.files.length > 0 && filePresent == true) {
+          var dataURL = document.getElementById("myCanvas").toDataURL("image/png");
+          var name = "image.png";
+          var base64 = dataURL.split('base64,')[1]; //http://stackoverflow.com/questions/26024135/converting-datauri-to-file-to-use-in-parse-javascript
+          var newFile = new Parse.File(name, { base64: base64 });
+          // var newFile = new Parse.File(fileName, file);
+          newFile.save({
+            success: function(){
+              //
+            }, error: function(file, error){
+              console.log("this is the issue here");
+                        }
+          }).then(function(theFile){
+            newLF.set("file", theFile);
+            newLF.save({
+              success: function(object) {
+                console.log("success");
+                $("#FormArea").empty();
+                $("#signature").text("Thank you. Refresh the page to upload another one.");
+              },
+              error: function(model, error) {
+                console.log("Post save with file error:"+error.message);
+              }
+            });
+          });
+        }  else {
+          console.log("no file uploaded");
+
+          newLF.save({
+            success: function(object) {
+              console.log("success");
+              $("#FormArea").empty();
+              $("#FormArea").text("Thank you. Refresh the page to upload another one.");
+            },
+            error: function(model, error) {
+              console.log("failure");
+            }
+          });
+        }
+}
+//end of LFunction
+</script>
+
+<script>
+  Parse.initialize("5Mt93UzpajJ9GdFOswxOvfGFuKzYILLERKPjlSaR", "YqQXgTXdkxON3cfQDquL9L8A783YyZd2Ahuhvz2K");
+
+  var user = Parse.User.current();
+  if (Parse.User.current()){
+    var emailVerified = Parse.User.current().get("emailVerified");
+      console.log("state:" + emailVerified);
+  }
+
+    $(document).ready(function checkLogin() { //Checking if logged in and if not deleting everything!
+
+        if (Parse.User.current() && emailVerified == true) {
+          console.log("logged in " +Parse.User.current().get("username"));
+          $("#current-user").html("Hey, "+Parse.User.current().get("username"));
+        } else {
+          $("#current-user").html("Not Logged in");
+          // $("body").empty(); THIS would flush everyhting in the body tag
+          window.location.href = "index.html";
+        }
+
+      });
+
+    $("#logout").click(function(event) {
+      Parse.User.logOut({success: function(){//DOES NOT WORK FOR SOME REASON
+        console.log("Logout Success");
+
+        }, error: function(){
+          console.log("Logout error :"+error.message);
+
+        }
+      });
+      checkLogin();
+    });
+    function checkLogin() { //Checking if logged in and if not deleting everything!
+        if (Parse.User.current() && emailVerified == true) {
+          console.log("logged in " +Parse.User.current().get("username"));
+          $("#current-user").html("User: "+Parse.User.current().get("username"));
+        } else {
+          $("#current-user").html("Not Logged in");
+          // $("body").empty(); THIS would flush everyhting in the body tag
+          window.location.href = "index.html";
+        }
+
+      }
+
+  </script>
+
+</body>
+<script type="text/javascript" src="JS_Files/TypeaheadAutocomplete.js"></script>
+</html>
+
+      <script type="text/javascript"> //generating the Remove button!
+          function removeButton(){
+          var removeButton = document.createElement("BUTTON");
+          removeButton.id = "remove-file-btn";
+          removeButton.className = "remove-file-btn";
+          removeButton.type = "button";
+          removeButton.addEventListener("click", removeFile);
+          removeButton.innerHTML = "Remove file";
+          document.getElementById("removeDiv").appendChild(removeButton);
+        }
+
+      </script>
+      <script type="text/javascript">//this is almost perfect. this media query is responsible for formatting the form in such a way that the form border almost always wraps arond the feldsets. Although I do wish that I did not have to write 2 exact same functions just because I want it to work both when I resize it as well as when the window is loaded.
+      $(window).on('resize', function() {
+        if($(window).width() < 768) {
+            $('#form').addClass('form-small');
+           $('#form').removeClass('form-big');
+        }else{
+            $('#form').addClass('form-big');
+            $('#form').removeClass('form-small');
+        }
+      })
+      $(window).on('load', function() {
+        if($(window).width() < 768) {
+            $('#form').addClass('form-small');
+           $('#form').removeClass('form-big');
+        }else{
+            $('#form').addClass('form-big');
+            $('#form').removeClass('form-small');
+        }
+      })
+
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!--SFunction-->
+<script type= "text/javascript" src= "SFunction.js">
+
+</script>
+
+    <!--
+
+        <div class = "signature">
+        <center><img src ="logo.png" height="50" width= "100"></img></center>
+        <b1>Created by Matthew J. Gunton</b1>
+        </div>
+-->
+</body>
+</html>
